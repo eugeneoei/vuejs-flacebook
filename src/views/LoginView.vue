@@ -1,23 +1,16 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { Form, ErrorMessage, Field } from "vee-validate";
+import { object, string } from "yup";
 import FlbkButton from "../components/ui/FlbkButton.vue";
 import FlbkSpinner from "../components/ui/FlbkSpinner.vue";
 
-// export default defineComponent({
-//     data() {
-//         return {
-//             count: 1,
-//         };
-//     },
-// });
+const schema = object({
+    email: string().email("Email is valid.").required("Email is required."),
+    password: string().required("Password is required."),
+});
 
-const email = ref<string>("");
-const password = ref<string>("");
-const isLoggingIn = ref<boolean>(false);
-
-const handleLogin = () => {
-    isLoggingIn.value = true;
-    console.log("hi");
+const onSubmit = (values: Record<string, any>) => {
+    console.log(values);
 };
 </script>
 
@@ -27,30 +20,42 @@ const handleLogin = () => {
             <h3 className="text-xl text-center font-bold tracking-wider">
                 Login
             </h3>
-            <form @submit.prevent="handleLogin">
+            <Form
+                @submit="onSubmit"
+                :validation-schema="schema"
+                v-slot="{ isSubmitting }"
+            >
                 <div class="mt-4">
                     <label htmlFor="email" class="block">Email</label>
-                    <input
-                        type="email"
+                    <Field
                         id="email"
-                        v-model="email"
+                        type="email"
+                        name="email"
                         class="block w-full mt-2 p-2 rounded"
+                    />
+                    <ErrorMessage
+                        name="email"
+                        class="mt-2 text-red-600 block"
                     />
                 </div>
                 <div class="mt-4">
                     <label htmlFor="password" class="block">Password</label>
-                    <input
-                        type="password"
+                    <Field
                         id="password"
-                        v-model="password"
+                        type="password"
+                        name="password"
                         class="block w-full mt-2 p-2 rounded"
                     />
+                    <ErrorMessage
+                        name="password"
+                        class="mt-2 text-red-600 block"
+                    />
                 </div>
-                <div class="mt-6">
-                    <FlbkSpinner v-if="isLoggingIn" />
+                <div class="mt-6 text-center">
+                    <FlbkSpinner v-if="isSubmitting" />
                     <FlbkButton v-else>Login</FlbkButton>
                 </div>
-            </form>
+            </Form>
         </div>
     </div>
 </template>

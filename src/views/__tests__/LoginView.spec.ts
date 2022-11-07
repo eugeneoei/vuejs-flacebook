@@ -61,4 +61,20 @@ describe("Login page", async () => {
         const spinner = await screen.findByRole("progressbar");
         expect(spinner).toBeTruthy();
     });
+
+    it("should show error messages when form value is invalid", async () => {
+        const user = userEvent.setup();
+        render(LoginView);
+
+        const loginButton = screen.getByRole("button", { name: /login/i });
+        user.click(loginButton);
+
+        const loginErrorMessage = await screen.findByText("Email is required.");
+        const passwordErrorMessage = await screen.findByText(
+            "Password is required."
+        );
+
+        expect(loginErrorMessage).toBeTruthy();
+        expect(passwordErrorMessage).toBeTruthy();
+    });
 });

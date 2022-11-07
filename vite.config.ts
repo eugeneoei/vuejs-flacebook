@@ -10,8 +10,7 @@ export default defineConfig({
     //     vue({
     //         template: {
     //             compilerOptions: {
-    //                 isCustomElement: (tag) =>
-    //                     ["font-awesome-icon"].includes(tag),
+    //                 isCustomElement: (tag) => ["FontAwesomeIcon"].includes(tag),
     //             },
     //         },
     //     }),

@@ -62,7 +62,7 @@ describe("Login page", async () => {
         expect(spinner).toBeTruthy();
     });
 
-    it("should show error messages when form value is invalid", async () => {
+    it("should show error messages when when form is submitted without any values", async () => {
         const user = userEvent.setup();
         render(LoginView);
 
